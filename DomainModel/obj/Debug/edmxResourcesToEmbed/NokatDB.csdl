@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NokatModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="NokatEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Jokes" EntityType="NokatModel.Joke" />
+    <EntitySet Name="Members" EntityType="NokatModel.Member" />
+    <EntitySet Name="sysdiagrams" EntityType="NokatModel.sysdiagram" />
+    <AssociationSet Name="FK_Joke_Member" Association="NokatModel.FK_Joke_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Joke" EntitySet="Jokes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Joke">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="JokeText" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="MemberID" Type="Int32" />
+    <Property Name="Rank" Type="Int32" />
+    <Property Name="TimeAdded" Type="DateTime" />
+    <Property Name="Good" Type="Int32" />
+    <Property Name="Bad" Type="Int32" />
+    <NavigationProperty Name="Member" Relationship="NokatModel.FK_Joke_Member" FromRole="Joke" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="FBID" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Jokes" Relationship="NokatModel.FK_Joke_Member" FromRole="Member" ToRole="Joke" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Joke_Member">
+    <End Role="Member" Type="NokatModel.Member" Multiplicity="0..1" />
+    <End Role="Joke" Type="NokatModel.Joke" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Joke">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

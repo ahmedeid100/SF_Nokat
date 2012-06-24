@@ -1,0 +1,144 @@
+﻿@model List<DomainModel.Joke>
+
+<div id="AllJokesDiv">
+        <table>
+            @foreach (var item in Model)
+        {
+                          
+                <tr style="border-bottom-width: medium; border-bottom-color: Orange; border-bottom-style: groove;">
+                    <td colspan="3" align="center" style="font-size: large">
+                        <img src="../../Content/images/hrs.jpg" />
+                        <br />
+                        <br />
+                        @item.JokeText
+                        <br />
+                        <br />
+                    </td>
+                </tr>
+                <tr style="border-bottom-width: medium; border-bottom-color: Orange; border-bottom-style: double;">
+                    <td>
+                        <a href="#" onclick="loadMemberJokes(@item.Member.ID); return false;">
+                            <img alt="Press for more user jokes" src="http://graph.facebook.com/@item.Member.FBID/picture" width="40" height="40" style="border:none"/>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" onclick="loadMemberJokes(@item.Member.ID); return false;">@item.Member.Name</a>
+                        <br />
+                    </td>
+                    <td>
+                        <input type="submit" id="increaseVote" value="+" onclick="increaseVotejoke(@item.ID);" />
+                        <input type="text" readonly="readonly" style="background-color:#77FFAA; border-style:solid; border-color:#33BB66; text-align:center; width:30px;" id="@string.Format("lblInc_{0}", item.ID)" value="@item.Good" />
+                        &nbsp;&nbsp;
+                        <input type="submit" id="decreaseVote" value="-"  onclick="decreaseVotejoke(@item.ID);"/>
+                        <input type="text" readonly="readonly"  style="background-color:#FF99AA;border-style:solid; border-color:#CC4466; text-align:center; width:30px" id="@string.Format("lblDec_{0}", item.ID)" value="@item.Bad" />
+                        &nbsp;&nbsp; Rank:
+                        <input type="text" style=" text-align:center; width:30" readonly="readonly" id="@string.Format("lblRnk_{0}", item.ID)" value="@item.Rank" />
+                        &nbsp;&nbsp; &nbsp;&nbsp;
+                        <input type="submit" id="share" value="Share"  onclick="sharejoke('@item.JokeText','@item.Member.Name');"/>
+                    </td>
+                </tr>
+              
+
+          
+        }
+               <tr style="border-bottom-width: medium; border-bottom-color: Orange; border-bottom-style: groove;">
+                <td colspan="3" align="center" style="font-size: large">
+                    <img src="../../Content/images/hrs.jpg" />
+                    <br />
+                   <div id="demo5">
+                    </div>
+                    <br />
+                </td>
+            </tr>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+
+
+
+
+    function increaseVotejoke(jokeId) {
+        $.post("/Joke/IncreaseJoke", { jokeID: jokeId }, function (data) {
+
+            var ranks = data.split('_');
+            $("#lblInc_" + jokeId).val(ranks[1]);
+            $("#lblRnk_" + jokeId).val(ranks[0]);
+        });
+    }
+
+    function decreaseVotejoke(jokeId) {
+        $.post("/Joke/DecreaseJoke", { jokeID: jokeId }, function (data) {
+            var ranks = data.split('_');
+            $("#lblDec_" + jokeId).val(ranks[1]);
+            $("#lblRnk_" + jokeId).val(ranks[0]);
+        });
+    }
+
+
+
+
+
+    function sharejoke(jokeText, userName) {
+        FB.api('/me', function (response) {
+            var imageURL = 'http://mynokat-1.apphb.com/content/images/logo.jpg';
+            var url = 'https://apps.facebook.com/mynokats';
+            streamPublish(userName, jokeText, 'My Nokats', url, imageURL);
+        });
+    }
+
+    function streamPublish(userName, description, hrefTitle, hrefLink, imageURL) {
+
+        var attachment = { 'name': userName + ' shared this joke',
+            'description': description,
+            'media': [{ 'type': 'image', 'src': imageURL, 'href': hrefLink}],
+            'href': hrefLink
+        };
+
+        FB.ui({
+            method: 'stream.publish',
+            message: 'I just found this Super Cool Website!',
+            attachment: attachment,
+            user_message_prompt: 'Post this to your wall?'
+        }, function (responce) {
+        });
+
+    }
+
+    function loadMemberJokes(memID) {
+        $.post("/Joke/MemberIndexPartial", { MemberID: memID }, function (data) {
+            $('#detailedJokesDiv').html(data);
+        });
+    }
+
+    function loadAllJokes(PgNo) {
+        $.post("/Joke/indexPartial", { PageNo: PgNo }, function (data) {
+            $('#detailedJokesDiv').html(data);
+        });
+    }
+
+</script>
+<script src="../../Scripts/jquery.paginate.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $("#demo5").paginate({
+            count: 5,
+            start: 1,
+            display: 5,
+            border: true,
+            border_color: '#fff',
+            text_color: '#fff',
+            background_color: 'black',
+            border_hover_color: '#ccc',
+            text_hover_color: '#000',
+            background_hover_color: '#fff',
+            images: false,
+            mouse: 'press',
+            onChange: function (page) {
+                loadAllJokes(page); //return false;
+            }
+        });
+    });
+    </script>

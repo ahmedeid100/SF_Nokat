@@ -1,0 +1,13 @@
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\Nokat.Tests.dll
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\Nokat.Tests.pdb
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\Nokat.UI.dll
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\nunit.framework.dll
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\DomainModel.dll
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\Nokat.UI.pdb
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\nunit.framework.xml
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\DomainModel.pdb
+D:\Work\SocialFruits\Nokat\Nokat.Tests\obj\Debug\ResolveAssemblyReference.cache
+D:\Work\SocialFruits\Nokat\Nokat.Tests\obj\Debug\Nokat.Tests.dll
+D:\Work\SocialFruits\Nokat\Nokat.Tests\obj\Debug\Nokat.Tests.pdb
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\Facebook.dll
+D:\Work\SocialFruits\Nokat\Nokat.Tests\bin\Debug\Facebook.xml

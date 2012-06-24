@@ -1,0 +1,12 @@
+D:\Work\SocialFruits\Nokat.UI\DomainModel\obj\Debug\ResolveAssemblyReference.cache
+D:\Work\SocialFruits\Nokat.UI\DomainModel\bin\Debug\DomainModel.dll.config
+D:\Work\SocialFruits\Nokat.UI\DomainModel\bin\Debug\DomainModel.dll
+D:\Work\SocialFruits\Nokat.UI\DomainModel\bin\Debug\DomainModel.pdb
+D:\Work\SocialFruits\Nokat.UI\DomainModel\obj\Debug\DomainModel.dll
+D:\Work\SocialFruits\Nokat.UI\DomainModel\obj\Debug\DomainModel.pdb
+D:\Work\SocialFruits\Nokat\DomainModel\bin\Debug\DomainModel.dll.config
+D:\Work\SocialFruits\Nokat\DomainModel\bin\Debug\DomainModel.dll
+D:\Work\SocialFruits\Nokat\DomainModel\bin\Debug\DomainModel.pdb
+D:\Work\SocialFruits\Nokat\DomainModel\obj\Debug\ResolveAssemblyReference.cache
+D:\Work\SocialFruits\Nokat\DomainModel\obj\Debug\DomainModel.dll
+D:\Work\SocialFruits\Nokat\DomainModel\obj\Debug\DomainModel.pdb

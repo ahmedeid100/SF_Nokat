@@ -1,0 +1,88 @@
+﻿@model List<DomainModel.Joke>
+<div id="AllJokesDiv">
+    @Html.ActionLink("Go to all Nokats", "Index", "Joke");
+    <table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td colspan="3" align="center" style="font-size: large">
+                    <br />
+                    <br />
+                    @item.JokeText
+                    <br />
+                    <br />
+                </td>
+            </tr>
+            <tr style="border-bottom-style:double;" >
+                <td>
+                    <img alt="Press for more user jokes" src="http://graph.facebook.com/@item.Member.FBID/picture" width="40" height="40"/>
+                </td>
+                <td>
+                    @item.Member.Name
+                </td>
+                <td>
+                    <input type="submit" id="increaseVote" value="+" onclick="increaseVotejoke(@item.ID);" />
+                    <input type="text" readonly="readonly" style="background-color:#77FFAA;border-style:solid; border-color:#33BB66; text-align:center; width:30px;" id="@string.Format("lblInc_{0}", item.ID)" value="@item.Good" />
+                    &nbsp;&nbsp;
+                    <input type="submit" id="decreaseVote" value="-"  onclick="decreaseVotejoke(@item.ID);"/>
+                    <input type="text" readonly="readonly"  style="background-color:#FF99AA;border-style:solid; border-color:#CC4466; text-align:center;  width:30px" id="@string.Format("lblDec_{0}", item.ID)" value="@item.Bad" />
+                    &nbsp;&nbsp; Rank:
+                    <input type="text" style=" text-align:center; width:30" readonly="readonly" id="@string.Format("lblRnk_{0}", item.ID)" value="@item.Rank" />
+                    &nbsp;&nbsp; &nbsp;&nbsp;
+                    <input type="submit" id="share" value="Share"  onclick="sharejoke('@item.JokeText','@item.Member.Name');"/>
+                </td>
+            </tr>
+
+        }
+    </table>
+</div>
+<script type="text/javascript" language="javascript">
+    function increaseVotejoke(jokeId) {
+        $.post("/Joke/IncreaseJoke", { jokeID: jokeId }, function (data) {
+
+            var ranks = data.split('_');
+            $("#lblInc_" + jokeId).val(ranks[1]);
+            $("#lblRnk_" + jokeId).val(ranks[0]);
+        });
+    }
+
+    function decreaseVotejoke(jokeId) {
+        $.post("/Joke/DecreaseJoke", { jokeID: jokeId }, function (data) {
+            var ranks = data.split('_');
+            $("#lblDec_" + jokeId).val(ranks[1]);
+            $("#lblRnk_" + jokeId).val(ranks[0]);
+        });
+    }
+
+
+
+
+
+    function sharejoke(jokeText, userName) {
+        FB.api('/me', function (response) {
+            var imageURL = 'http://mynokat-1.apphb.com/content/images/logo.jpg';
+            var url = 'https://apps.facebook.com/mynokats';
+            streamPublish(userName, jokeText, 'My Nokats', url, imageURL);
+        });
+    }
+
+    function streamPublish(userName, description, hrefTitle, hrefLink, imageURL) {
+
+        var attachment = { 'name': userName + ' shared this joke',
+            'description': description,
+            'media': [{ 'type': 'image', 'src': imageURL, 'href': hrefLink}],
+            'href': hrefLink
+        };
+
+        FB.ui({
+            method: 'stream.publish',
+            message: 'I just found this Super Cool Website!',
+            attachment: attachment,
+            user_message_prompt: 'Post this to your wall?'
+        }, function (responce) {
+        });
+
+    }
+
+   
+</script>

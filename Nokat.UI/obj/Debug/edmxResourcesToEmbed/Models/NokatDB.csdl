@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NokatDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="NokatDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Jokes" EntityType="NokatDBModel.Joke" />
+    <EntitySet Name="Members" EntityType="NokatDBModel.Member" />
+    <AssociationSet Name="FK_Joke_Member" Association="NokatDBModel.FK_Joke_Member">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Joke" EntitySet="Jokes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Joke">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="JokeText" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="Rank" Type="Int32" />
+    <Property Name="MemberID" Type="Int32" />
+    <Property Name="TimeAdded" Type="DateTime" />
+    <Property Name="Good" Type="Int32" />
+    <Property Name="Bad" Type="Int32" />
+    <NavigationProperty Name="Member" Relationship="NokatDBModel.FK_Joke_Member" FromRole="Joke" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="FBID" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Jokes" Relationship="NokatDBModel.FK_Joke_Member" FromRole="Member" ToRole="Joke" />
+  </EntityType>
+  <Association Name="FK_Joke_Member">
+    <End Role="Member" Type="NokatDBModel.Member" Multiplicity="0..1" />
+    <End Role="Joke" Type="NokatDBModel.Joke" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Joke">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

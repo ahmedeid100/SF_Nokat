@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NokatModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="NokatModelStoreContainer">
+          <EntitySet Name="Joke" EntityType="NokatModel.Store.Joke" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Member" EntityType="NokatModel.Store.Member" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="sysdiagrams" EntityType="NokatModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Joke_Member" Association="NokatModel.Store.FK_Joke_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Joke" EntitySet="Joke" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Joke">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="JokeText" Type="nvarchar" MaxLength="200" />
+          <Property Name="MemberID" Type="int" />
+          <Property Name="Rank" Type="int" />
+          <Property Name="TimeAdded" Type="datetime" />
+          <Property Name="Good" Type="int" />
+          <Property Name="Bad" Type="int" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="FBID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Joke_Member">
+          <End Role="Member" Type="NokatModel.Store.Member" Multiplicity="0..1" />
+          <End Role="Joke" Type="NokatModel.Store.Joke" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Joke">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NokatModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="NokatEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Jokes" EntityType="NokatModel.Joke" />
+          <EntitySet Name="Members" EntityType="NokatModel.Member" />
+          <EntitySet Name="sysdiagrams" EntityType="NokatModel.sysdiagram" />
+          <AssociationSet Name="FK_Joke_Member" Association="NokatModel.FK_Joke_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Joke" EntitySet="Jokes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Joke">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JokeText" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="Rank" Type="Int32" />
+          <Property Name="TimeAdded" Type="DateTime" />
+          <Property Name="Good" Type="Int32" />
+          <Property Name="Bad" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="NokatModel.FK_Joke_Member" FromRole="Joke" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FBID" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Jokes" Relationship="NokatModel.FK_Joke_Member" FromRole="Member" ToRole="Joke" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Joke_Member">
+          <End Role="Member" Type="NokatModel.Member" Multiplicity="0..1" />
+          <End Role="Joke" Type="NokatModel.Joke" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Joke">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NokatModelStoreContainer" CdmEntityContainer="NokatEntities">
+          <EntitySetMapping Name="Jokes"><EntityTypeMapping TypeName="NokatModel.Joke"><MappingFragment StoreEntitySet="Joke">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="JokeText" ColumnName="JokeText" />
+            <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+            <ScalarProperty Name="Rank" ColumnName="Rank" />
+            <ScalarProperty Name="TimeAdded" ColumnName="TimeAdded" />
+            <ScalarProperty Name="Good" ColumnName="Good" />
+            <ScalarProperty Name="Bad" ColumnName="Bad" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Members"><EntityTypeMapping TypeName="NokatModel.Member"><MappingFragment StoreEntitySet="Member">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="FBID" ColumnName="FBID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams"><EntityTypeMapping TypeName="NokatModel.sysdiagram"><MappingFragment StoreEntitySet="sysdiagrams">
+            <ScalarProperty Name="name" ColumnName="name" />
+            <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+            <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+            <ScalarProperty Name="version" ColumnName="version" />
+            <ScalarProperty Name="definition" ColumnName="definition" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="NokatDB">
+        <EntityTypeShape EntityType="NokatModel.Joke" Width="1.5" PointX="4.625" PointY="1.125" Height="2.5571907552083335" IsExpanded="true" />
+        <EntityTypeShape EntityType="NokatModel.Member" Width="1.5" PointX="0.75" PointY="1.375" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="NokatModel.sysdiagram" Width="1.5" PointX="0.75" PointY="4.75" Height="1.9802864583333317" IsExpanded="true" />
+        <AssociationConnector Association="NokatModel.FK_Joke_Member" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.2689925130208337" />
+          <ConnectorPoint PointX="4.625" PointY="2.2689925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

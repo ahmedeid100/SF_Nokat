@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NokatDBModelStoreContainer" CdmEntityContainer="NokatDBEntities">
+    <EntitySetMapping Name="Jokes">
+      <EntityTypeMapping TypeName="NokatDBModel.Joke">
+        <MappingFragment StoreEntitySet="Joke">
+          <ScalarProperty Name="TimeAdded" ColumnName="TimeAdded" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="JokeText" ColumnName="JokeText" />
+          <ScalarProperty Name="Rank" ColumnName="Rank" />
+          <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="NokatDBModel.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FBID" ColumnName="FBID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

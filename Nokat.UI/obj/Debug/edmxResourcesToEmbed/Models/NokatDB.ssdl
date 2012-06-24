@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NokatDBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="NokatDBModelStoreContainer">
+    <EntitySet Name="Joke" EntityType="NokatDBModel.Store.Joke" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="NokatDBModel.Store.Member" store:Type="Tables" />
+    <AssociationSet Name="FK_Joke_Member" Association="NokatDBModel.Store.FK_Joke_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Joke" EntitySet="Joke" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Joke">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="JokeText" Type="nvarchar" MaxLength="200" />
+    <Property Name="Rank" Type="int" />
+    <Property Name="MemberID" Type="int" />
+    <Property Name="TimeAdded" Type="datetime" />
+    <Property Name="Good" Type="int" />
+    <Property Name="Bad" Type="int" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="FBID" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_Joke_Member">
+    <End Role="Member" Type="NokatDBModel.Store.Member" Multiplicity="0..1" />
+    <End Role="Joke" Type="NokatDBModel.Store.Joke" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Joke">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,67 @@
+﻿@model List<DomainModel.Joke>
+@{
+    ViewBag.Title = "Index";
+}
+
+<table><tr>
+<td valign="top">
+&nbsp;&nbsp;&nbsp;
+</td>
+<td valign="top">
+Enter Your Joke:
+</td>
+<td>
+@Html.TextArea("txtPostNokta", new
+{
+    maxlength = 200, 
+    style = "width: 300px; height: 100px;"
+})
+</td>
+<td>
+<input type="submit" id="submitPost" value="Post" onclick="Post()"/>
+</td>
+<td style="margin-right:100px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="" style="font-size:large" onclick="loadAllJokes()">Go to all Nokat</a>
+</td>
+</tr>
+</table>
+
+<div id="detailedJokesDiv">
+@Html.Partial("indexPartial")
+</div>
+
+<script type="text/javascript">
+    function Post() {
+        var jokeText = $("#txtPostNokta").val();
+        var memberId = $("#memberID").val(); 
+        //alert(jokeText);
+
+//        $.ajax({
+//            URL: "/Joke/indexPartial",
+//            type: "POST",
+//            data: { joketext: jokeText , memberID: memberId},
+//            success: function (result) {
+//                alert(result);
+//                $("#detailedJokesDiv").html(result);   //Your resulting action
+//            }
+//        });
+
+        $.post("/Joke/PostJoke", { joketext: jokeText, memberID: memberId }, function (data2) {
+            $.post("/Joke/indexPartial",  function (data) {
+                //alert(data);
+                $('#detailedJokesDiv').html(data);
+            });
+
+        });
+
+
+    }
+
+
+
+    function loadAllJokes() {
+        $.post("/Joke/indexPartial", function (data) {
+            $('#detailedJokesDiv').html(data);
+        });
+    }
+</script>
